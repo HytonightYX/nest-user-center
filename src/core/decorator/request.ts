@@ -1,8 +1,8 @@
 import { Request } from 'express';
-import { RequestPagination } from '@common';
+import { RequestPagination } from '@common/interface';
 import { createParamDecorator, ExecutionContext, UnprocessableEntityException } from '@nestjs/common';
 
-import { getIp } from '../utils';
+import { IPUtil } from '@library/utils';
 
 /**
  * Get the pagination information injected in the current request object
@@ -56,7 +56,7 @@ export const CurrentUser = createParamDecorator(
 export const CurrentIP = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request: Request = ctx.switchToHttp().getRequest();
-    const ip = getIp(request);
+    const ip = IPUtil.getIp(request);
     return ip;
   },
 );

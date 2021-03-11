@@ -1,12 +1,13 @@
+import { DtoPipe } from '@core/pipe';
 import { Module } from '@nestjs/common';
+import { OrderModule } from '@modules/user';
 import { RedisModule } from '@library/redis';
 import { LoggerModule } from '@library/logger';
+import { HealthModule } from '@modules/health';
 import { ConfigModule } from '@library/configs';
+import { ExceptionCatchFilter } from '@core/filter';
 import { PostgresqlModule } from '@library/postgresql';
-import { DtoPipe, ExceptionCatchFilter, FormatInterceptor, LogInterceptor } from '@library/core';
-
-import { OrderModule } from './order';
-import { HealthModule } from './health';
+import { LogInterceptor, FormatInterceptor } from '@core/interceptor';
 
 @Module({
   imports: [
@@ -24,12 +25,18 @@ import { HealthModule } from './health';
     HealthModule,
   ],
   exports: [
+    /**
+     * export provider
+     */
     DtoPipe,
     LogInterceptor,
     FormatInterceptor,
     ExceptionCatchFilter,
   ],
   providers: [
+    /**
+     * context provider
+     */
     DtoPipe,
     LogInterceptor,
     FormatInterceptor,
