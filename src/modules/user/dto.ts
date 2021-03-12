@@ -1,7 +1,7 @@
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
-export class LoginDto {
+class UserDto {
   @ApiProperty({
     name: 'name',
     type: String,
@@ -26,6 +26,20 @@ export class LoginDto {
     description: 'password',
   })
   password?: string;
+}
+
+export class LoginDto extends UserDto {}
+
+export class UpdateUserDto extends UserDto {}
+
+export class FindUserDto extends UserDto {
+  @ApiProperty({
+    name: 'id',
+    type: Number,
+    required: false,
+    description: 'id',
+  })
+  id?: number;
 }
 
 export class CreateUserDto {
@@ -56,25 +70,4 @@ export class CreateUserDto {
     description: 'password',
   })
   password: string;
-}
-
-export class FindUserDto extends LoginDto {
-  @ApiProperty({
-    name: 'id',
-    type: Number,
-    required: false,
-    description: 'id',
-  })
-  id?: number;
-}
-
-export class UpdateUserDto extends LoginDto {
-  @IsNotEmpty({ message: 'id is not allowed to be null' })
-  @ApiProperty({
-    name: 'id',
-    type: Number,
-    required: true,
-    description: 'id',
-  })
-  id: number;
 }

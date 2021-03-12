@@ -26,6 +26,7 @@ export const createServer = async () => {
   app.useGlobalInterceptors(iocContext.get(LogInterceptor), iocContext.get(FormatInterceptor));
 
   if (configs.info.env !== 'prod') await createSwagger(app);
+
   await app.listen(configs.info.port);
   logger.info(`${configs.info.appName} START WITH PORT: ${configs.info.port} 🚀 `);
 };

@@ -1,4 +1,5 @@
-export interface CommonFindOptions<T> {
-  attributes?: Array<keyof T>;
+export interface Conditions<T> {
+  operator?: any;
   fuzzySearch?: boolean;
+  attributes?: Array<keyof T>;
 }

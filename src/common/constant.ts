@@ -6,18 +6,18 @@ const srcPath = resolve(__dirname, '../');
 const rootPath = resolve(__dirname, '../../');
 
 export const pathConstant = {
+  // root
+  // ----------------------------
+  root: rootPath,
+  temp: `${rootPath}/temp`,
+  logs: `${rootPath}/logs`,
   // src
-  // --------------------------
+  // ----------------------------
   src: srcPath,
   core: `${srcPath}/core`,
   common: `${srcPath}/common`,
   library: `${srcPath}/library`,
   modules: `${srcPath}/modules`,
-  // root
-  // --------------------------
-  root: rootPath,
-  temp: `${rootPath}/temp`,
-  logs: `${rootPath}/logs`,
 };
 
 export const envConstant = {
@@ -41,7 +41,7 @@ export const httpStatusConstant: HttpStatusConstant = {
   language: 'en',
   status: new Map([
     // The http base status
-    // --------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------
     [200, { code: 0, errorCode: 200, zh: '请求成功', en: 'Success' }],
     [400, { code: 400, errorCode: 400, zh: '请求有误', en: 'BadRequest' }],
     [401, { code: 401, errorCode: 401, zh: '拒绝访问', en: 'Forbidden' }],
@@ -53,7 +53,7 @@ export const httpStatusConstant: HttpStatusConstant = {
     [502, { code: 502, errorCode: 502, zh: '服务端网关访问异常', en: 'BadGateway' }],
     [503, { code: 503, errorCode: 503, zh: '服务端更新中，暂不可用', en: 'Service Unavailable' }],
     // The custom status
-    // --------------------------------------------------------------------------------------
+    // ----------------------------------------------------------------------------------------
     [400001, { code: 400, errorCode: 400001, zh: '参数有误', en: 'Parameter is wrong' }],
   ]),
 };

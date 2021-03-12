@@ -1,5 +1,6 @@
+import { assign } from 'lodash';
 import { Inject, Injectable } from '@nestjs/common';
-import { PostgresqlProvider, Sequelize, Op, User, CommonFindOptions, Conditions } from '@library/postgresql';
+import { PostgresqlProvider, Sequelize, Op, User, FindOptions, Conditions } from '@library/postgresql';
 
 import { FindUserDto, CreateUserDto, UpdateUserDto } from './dto';
 
@@ -16,10 +17,10 @@ export class UserDao {
     return { id, name, email, createdAt, updatedAt } as User;
   }
 
-  async update(dto: UpdateUserDto) {
+  async updateById(id: number, dto: UpdateUserDto) {
     this.postgresql.transaction(async (transaction) => {
       const entity = {};
-      const { id, name, email, password } = dto;
+      const { name, email, password } = dto;
 
       if (name) entity['name'] = name;
       if (email) entity['email'] = email;
@@ -29,33 +30,42 @@ export class UserDao {
     });
   }
 
-  async findOne(dto: FindUserDto, options?: CommonFindOptions<User>) {
-    const { id, name, email } = dto;
-    const conditions: Conditions = { where: {}};
+  async findById(id: number, conditions?: Conditions<User>) {
+    const options: FindOptions = { where: { id }};
 
-    if (id) conditions.where['id'] = id;
-    if (name) conditions.where['name'] = name;
-    if (email) conditions.where['email'] = email;
-
-    if (options) {
-      const { fuzzySearch, attributes } = options;
+    if (conditions) {
+      const { attributes, operator } = conditions;
       if (attributes) conditions.attributes = attributes;
-      if (name && fuzzySearch) conditions.where['name'] = { [Op.like]: `%${name}%` };
+      if (operator) options.where = assign(options.where, operator);
     }
 
-    const result = await User.findOne(conditions);
+    const result = await User.findOne(options);
     return result;
   }
 
-  async findById(id: number, options?: CommonFindOptions<User>) {
-    const conditions: Conditions = { where: { id }};
+  async findOne(dto: FindUserDto, conditions?: Conditions<User>) {
+    const options: FindOptions = { where: {}};
 
-    if (options) {
-      const { attributes } = options;
-      if (attributes) conditions.attributes = attributes;
+    if (dto) {
+      const { id, name, email } = dto;
+      if (id) options.where['id'] = id;
+      if (name) options.where['name'] = name;
+      if (email) options.where['email'] = email;
     }
 
-    const result = await User.findOne(conditions);
+    if (conditions) {
+      const { attributes, operator } = conditions;
+      if (attributes) options.attributes = attributes;
+      if (operator) options.where = assign(options.where, operator);
+    }
+
+    if (dto && conditions) {
+      if (dto.name && conditions.fuzzySearch) {
+        options.where['name'] = { [Op.like]: `%${dto.name}%` };
+      }
+    }
+
+    const result = await User.findOne(options);
     return result;
   }
 }
