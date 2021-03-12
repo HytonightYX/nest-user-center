@@ -7,7 +7,7 @@ import { IPUtil } from '@library/utils';
 /**
  * Get the pagination information injected in the current request object
  */
-export const CurrentPaging = createParamDecorator(
+export const CurrentPage = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request: Request = ctx.switchToHttp().getRequest();
     const pagination: RequestPagination = { page: 1, pageSize: 10, order: 'id DESC' };

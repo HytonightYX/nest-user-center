@@ -71,7 +71,7 @@ export class UserService {
     const userId = this.tokenParsing(token);
     const { hkey, key } = this.userCacheKey(userId);
 
-    const user = this
+    const user = await this
       .redis
       .hashCache(this.dao.findById, { hkey, key })
       .with(userId, { attributes: ['id', 'name', 'email'] });

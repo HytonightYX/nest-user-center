@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import { Op, FindOptions } from 'sequelize';
+import { Op, FindOptions, FindAndCountOptions, Order } from 'sequelize';
 
 export {
   // sequelize-typescript
@@ -8,5 +8,7 @@ export {
   // sequelize
   // --------------------
   Op,
+  Order,
   FindOptions,
+  FindAndCountOptions,
 };

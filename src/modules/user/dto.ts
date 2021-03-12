@@ -35,11 +35,11 @@ export class UpdateUserDto extends UserDto {}
 export class FindUserDto extends UserDto {
   @ApiProperty({
     name: 'id',
-    type: Number,
+    type: String,
     required: false,
     description: 'id',
   })
-  id?: number;
+  id?: string;
 }
 
 export class CreateUserDto {
