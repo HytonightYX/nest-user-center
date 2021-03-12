@@ -1,8 +1,7 @@
 import { Request } from 'express';
-import { RequestPagination } from '@common/interface';
-import { createParamDecorator, ExecutionContext, UnprocessableEntityException } from '@nestjs/common';
-
 import { IPUtil } from '@library/utils';
+import { Pagination } from '@common/interface';
+import { createParamDecorator, ExecutionContext, UnprocessableEntityException } from '@nestjs/common';
 
 /**
  * Get the pagination information injected in the current request object
@@ -10,7 +9,7 @@ import { IPUtil } from '@library/utils';
 export const CurrentPage = createParamDecorator(
   (data: unknown, ctx: ExecutionContext) => {
     const request: Request = ctx.switchToHttp().getRequest();
-    const pagination: RequestPagination = { page: 1, pageSize: 10, order: 'id DESC' };
+    const pagination: Pagination = { page: 1, pageSize: 10, order: 'id DESC' };
 
     if (request.query) {
       const { page, pageSize, order } = request.query;

@@ -7,7 +7,7 @@ export interface ResponseBody<T> {
   timestamp: number;
 }
 
-export interface RequestPagination {
+export interface Pagination {
   page: number;
   pageSize: number;
   order: string;
@@ -24,4 +24,3 @@ export interface HttpStatusConstant {
   language?: 'zh' | 'en';
   status?: Map<number, HttpStatusConstantInfo>;
 }
-

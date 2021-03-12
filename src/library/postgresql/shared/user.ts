@@ -16,7 +16,7 @@ export class User extends BaseModel<User> {
   })
   email: string;
 
-  @Default('0')
+  @Default('CHOGATH-XXX')
   @Column({
     comment: 'user password, save after encoding with SHA256',
     type: DataType.STRING(255),

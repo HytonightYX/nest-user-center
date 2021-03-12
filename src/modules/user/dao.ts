@@ -18,16 +18,26 @@ export class UserDao {
   }
 
   async updateById(id: number, dto: UpdateUserDto) {
-    this.postgresql.transaction(async (transaction) => {
-      const entity = {};
-      const { name, email, password } = dto;
+    const result = await new Promise((resolve, reject) => {
+      this.postgresql
+        .transaction(async (transaction) => {
+          const entity = {};
+          const { name, email, password } = dto;
 
-      if (name) entity['name'] = name;
-      if (email) entity['email'] = email;
-      if (password) entity['password'] = password;
+          if (name) entity['name'] = name;
+          if (email) entity['email'] = email;
+          if (password) entity['password'] = password;
 
-      await User.update(entity, { where: { id }, transaction });
+          const result = await User.update(entity, { where: { id }, transaction });
+
+          if (result) resolve(result);
+        })
+        .catch((error) => {
+          if (error) reject(error);
+        });
     });
+
+    return result;
   }
 
   async findById(id: number, conditions?: Conditions<User>) {

@@ -1,10 +1,10 @@
 import { CryptoUtil } from '@library/utils';
 import { SuperRedis } from '@sophons/redis';
 import { sign, verify } from 'jsonwebtoken';
+import { RedisProvider } from '@library/redis';
 import { Op, User } from '@library/postgresql';
 import { secretConstant } from '@common/constant';
 import { ConfigProvider } from '@library/configs';
-import { RedisProvider } from '@library/redis';
 import { HttpException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 
 import { UserDao } from './dao';
@@ -16,6 +16,7 @@ export class UserService {
   constructor(
     @Inject(RedisProvider.local)
     private readonly redis: SuperRedis,
+
     private readonly dao: UserDao,
     private readonly configs: ConfigProvider,
   ) {}
@@ -73,7 +74,7 @@ export class UserService {
 
     const user = await this
       .redis
-      .hashCache(this.dao.findById, { hkey, key })
+      .hashCache({ hkey, key, next: this.dao.findById })
       .with(userId, { attributes: ['id', 'name', 'email'] });
 
     if (!user) throw new UnauthorizedException();
