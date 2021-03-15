@@ -21,11 +21,14 @@ export class UserService {
     private readonly configs: ConfigProvider,
   ) {}
 
-  private tokenParsing(token: string): number {
+  private createSecret() {
     const { jwt } = secretConstant;
     const { env, appName } = this.configs.info;
+    return `${env}:${appName}:${jwt}`;
+  }
 
-    const user = verify(token, `${env}:${appName}:${jwt}`) as User;
+  private tokenParsing(token: string): number {
+    const user = verify(token, this.createSecret()) as User;
     if (!user || !user.id) throw new UnauthorizedException();
     return user.id;
   }
@@ -63,8 +66,7 @@ export class UserService {
     const { hkey, key } = this.userCacheKey(user.id);
     await this.redis.client.hset(hkey, key, JSON.stringify(user));
 
-    const secret = secretConstant.jwt + this.configs.info.env;
-    const token = sign({ id: user.id }, secret, { expiresIn: '2h' });
+    const token = sign({ id: user.id }, this.createSecret(), { expiresIn: '2h' });
     return { token };
   }
 
