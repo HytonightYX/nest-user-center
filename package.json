@@ -4,7 +4,7 @@
 	"main": "dist/index.js",
 	"author": "chogath@163.com",
 	"license": "BSD-2-Clause",
-	"description": "👩‍🚀 User-centric services built using nest-server",
+	"description": "👩‍🚀 Best template for using nest-server to build User-Center",
 	"homepage": "https://github.com/sophons-space/nest-user-center#readme",
 	"directories": {
 		"doc": "docs"

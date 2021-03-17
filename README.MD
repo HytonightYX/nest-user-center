@@ -5,8 +5,9 @@
 </p>
   
 <p align="center">
-  👩‍🚀 User-centric services built using
+  👩‍🚀 Best template for using
   <a href="https://github.com/sophons-space/nest-server">nest-server</a>
+  to build User-Center
 </p>
 
 ## Description
