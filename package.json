@@ -20,6 +20,7 @@
 		"build": "tsc",
 		"lint": "eslint ./src",
 		"start": "node dist/main.js",
+		"dev:ts": "ts-node src/main.ts",
 		"dev": "tsc && node dist/main.js"
 	},
 	"dependencies": {
