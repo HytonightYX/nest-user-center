@@ -35,16 +35,19 @@ export const CurrentPage = createParamDecorator(
 
 /**
  * Gets the User property injected in the current Request object
+ *
+ * @use: @CurrentUser() or @CurrentUser('id')
  */
 export const CurrentUser = createParamDecorator(
   (key: any, ctx: ExecutionContext) => {
     const request: Request = ctx.switchToHttp().getRequest();
 
-    const user = request['user'] as any;
-    const userInfo = user[key] as any;
+    if (request['user']) {
+      const user = request['user'] as any;
+      if (key && user[key]) return user[key];
+      return user;
+    }
 
-    if (userInfo) return userInfo;
-    if (user) return user;
     return null;
   },
 );
